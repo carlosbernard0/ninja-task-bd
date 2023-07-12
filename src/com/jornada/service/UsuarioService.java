@@ -14,6 +14,7 @@ public class UsuarioService {
             throw new Exception("Precisa ser @gmail");
         }
         Usuario usuarioSalvo = usuarioRepository.salvarUsuarioDB(usuario);
+        System.out.println("\n");
         return usuarioSalvo;
     }
 }
