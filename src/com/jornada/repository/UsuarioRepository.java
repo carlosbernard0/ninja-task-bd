@@ -3,9 +3,11 @@ package com.jornada.repository;
 import com.jornada.entity.Usuario;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UsuarioRepository {
-    public Usuario salvarUsuarioDB(Usuario  usuario) {
+    public Usuario salvarUsuarioDB(Usuario usuario) {
         Connection connection = null;
         try {
             connection = ConexaoDB.getConnection();
@@ -41,14 +43,52 @@ public class UsuarioRepository {
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
-            try{
-                if(connection != null && !connection.isClosed()){
+            try {
+                if (connection != null && !connection.isClosed()) {
                     connection.close();
                 }
-            }catch (SQLException ex){
+            } catch (SQLException ex) {
                 ex.printStackTrace();
             }
         }
         return null;
+    }
+
+    public List<Usuario> listarUsuario() throws SQLException {
+        List<Usuario> listaDeUsuarios = new ArrayList<>();
+        Connection connection = null;
+        try {
+            connection = ConexaoDB.getConnection();
+
+
+            String sql = "select * from usuario";
+
+            //        Statement statement = connection.createStatement();
+            ResultSet resultSet = connection.createStatement().executeQuery(sql);
+
+            while (resultSet.next()) {
+                Usuario usuario = new Usuario();
+                usuario.setId_usuario(resultSet.getInt("id_usuario"));
+                usuario.setNome_usuario(resultSet.getString("nome_usuario"));
+                usuario.setEmail_usuario(resultSet.getString("email_usuario"));
+                usuario.setSenha_usuario(resultSet.getString("senha_usuario"));
+                usuario.setData_registro(resultSet.getDate("data_registro"));
+
+                listaDeUsuarios.add(usuario);
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (connection != null && !connection.isClosed()) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            return listaDeUsuarios;
+        }
+
     }
 }

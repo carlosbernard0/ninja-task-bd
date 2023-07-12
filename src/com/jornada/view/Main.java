@@ -3,11 +3,12 @@ package com.jornada.view;
 import com.jornada.entity.Usuario;
 import com.jornada.service.UsuarioService;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         System.out.println("Seja Bem Vindo ao Ninja Task");
 
         UsuarioService usuarioService = new UsuarioService();
@@ -43,12 +44,9 @@ public class Main {
                         System.err.println(e.getMessage());
                     }
 
-
-
-
                 }
                 case 2 ->{
-
+                    usuarioService.listar();
                 }
                 case 3 -> {
 

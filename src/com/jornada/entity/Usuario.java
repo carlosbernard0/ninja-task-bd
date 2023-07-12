@@ -46,4 +46,15 @@ public class Usuario {
     public void setData_registro(Date data_registro) {
         this.data_registro = data_registro;
     }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "id_usuario=" + id_usuario +
+                ", nome_usuario='" + nome_usuario + '\'' +
+                ", email_usuario='" + email_usuario + '\'' +
+                ", senha_usuario='" + senha_usuario + '\'' +
+                ", data_registro=" + data_registro +
+                '}';
+    }
 }
