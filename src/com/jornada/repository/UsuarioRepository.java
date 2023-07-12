@@ -10,22 +10,23 @@ public class UsuarioRepository {
         try {
             connection = ConexaoDB.getConnection();
 
-            String sqlSequence = "select seq_usario.nextval proxval from DUAL";
+            String sql = "INSERT INTO USUARIO " +
+                    " (ID_USUARIO, NOME_USUARIO, EMAIL_USUARIO,SENHA_USUARIO, DATA_REGISTRO)" +
+                    "VALUES (?,?,?,?,?)";
+
+            String sqlSequence = "select seq_usuario.nextval proxval from DUAL";
+
             Statement statement = connection.createStatement();
+
             ResultSet retorno = statement.executeQuery(sqlSequence);
 
-            Integer proximoId = -1;
+            Integer idUsuario = -1;
             if (retorno.next()) {
-                proximoId = retorno.getInt("proxval");
+                idUsuario = retorno.getInt("proxval");
             }
 
-            String sql = "INSERT INTO CLIENTE " +
-                    " (ID_USUARIO, NOME_USUARIO, EMAIL_USUARIO,SENHA_USUARIO, DATA_REGISTRO" +
-                    "VALUES" +
-                    "(?,?,?,?,?)";
-
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, proximoId);
+            preparedStatement.setInt(1, idUsuario);
             preparedStatement.setString(2, usuario.getNome_usuario());
             preparedStatement.setString(3, usuario.getEmail_usuario());
             preparedStatement.setString(4, usuario.getSenha_usuario());
@@ -34,7 +35,7 @@ public class UsuarioRepository {
             int resposta = preparedStatement.executeUpdate();
             System.out.println("salvarUsuarioDB.resposta" + resposta);
 
-            usuario.setId_usuario(proximoId);
+            usuario.setId_usuario(idUsuario);
             return usuario;
 
         } catch (SQLException ex) {

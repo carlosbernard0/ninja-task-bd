@@ -9,7 +9,7 @@ public class UsuarioService {
     public UsuarioService(){
         usuarioRepository = new UsuarioRepository();
     }
-    public Usuario salvarCliente(Usuario usuario) throws Exception{
+    public Usuario salvarUsuario(Usuario usuario) throws Exception{
         if (!usuario.getEmail_usuario().contains("@gmail")){
             throw new Exception("Precisa ser @gmail");
         }
