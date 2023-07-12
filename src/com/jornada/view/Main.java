@@ -37,7 +37,7 @@ public class Main {
                     usuario.setData_registro(new Date());
 
                     try{
-                        usuarioService.salvarCliente(usuario);
+                        Usuario usuarioSalvo = usuarioService.salvarCliente(usuario);
                         System.out.println("Usuario salvo!!");
                     }catch (Exception e){
                         System.err.println(e.getMessage());
