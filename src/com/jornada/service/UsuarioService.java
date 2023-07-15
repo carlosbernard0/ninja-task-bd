@@ -36,4 +36,8 @@ public class UsuarioService {
             throw new Exception("Precisa ter @");
         }
     }
+
+    public boolean excluirUsuario(Integer idUsuario){
+        return this.usuarioRepository.excluirUsuario(idUsuario);
+    }
 }

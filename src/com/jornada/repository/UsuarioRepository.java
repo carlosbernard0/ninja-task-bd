@@ -127,4 +127,31 @@ public class UsuarioRepository {
             }
         }
     }
+
+    public boolean excluirUsuario(Integer idUsuario){
+        Connection connection = null;
+        try {
+            connection = ConexaoDB.getConnection();
+
+            String sql = "delete from usuario where id_usuario = ? ";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1,idUsuario);
+
+            int resultadoExcluir = preparedStatement.executeUpdate();
+            return resultadoExcluir > 0;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                if (connection != null && !connection.isClosed()) {
+                    connection.close();
+                }
+
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
 }

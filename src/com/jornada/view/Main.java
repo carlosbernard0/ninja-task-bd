@@ -78,6 +78,12 @@ public class Main {
                 }
 
                 case 4 -> {
+                    usuarioService.listar();
+                    System.out.println("Qual id você deseja excluir?");
+                    int idUsuario = Integer.parseInt(input.nextLine());
+
+                    boolean excluido =usuarioService.excluirUsuario(idUsuario);
+                    System.out.println("Excluido = " + excluido);
 
                 }
             }
