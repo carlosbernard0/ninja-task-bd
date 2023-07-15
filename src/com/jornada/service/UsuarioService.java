@@ -13,9 +13,8 @@ public class UsuarioService {
         usuarioRepository = new UsuarioRepository();
     }
     public Usuario salvarUsuario(Usuario usuario) throws Exception{
-        if (!usuario.getEmail_usuario().contains("@gmail")){
-            throw new Exception("Precisa ser @gmail");
-        }
+        validarUsuario(usuario);
+
         Usuario usuarioSalvo = usuarioRepository.salvarUsuarioDB(usuario);
         System.out.println("\n");
         return usuarioSalvo;
@@ -25,5 +24,16 @@ public class UsuarioService {
         List<Usuario> lista = usuarioRepository.listarUsuario();
         lista.stream().forEach(System.out::println);
         return lista;
+    }
+
+    public boolean editarUsuario(Usuario usuario) throws Exception {
+        validarUsuario(usuario);
+        return usuarioRepository.editarUsuario(usuario);
+    }
+
+    public void validarUsuario(Usuario usuario) throws Exception {
+        if (!usuario.getEmail_usuario().contains("@")){
+            throw new Exception("Precisa ter @");
+        }
     }
 }

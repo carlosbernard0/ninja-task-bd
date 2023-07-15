@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws Exception {
         System.out.println("Seja Bem Vindo ao Ninja Task");
 
         UsuarioService usuarioService = new UsuarioService();
@@ -49,6 +49,31 @@ public class Main {
                     usuarioService.listar();
                 }
                 case 3 -> {
+                    usuarioService.listar();
+                    System.out.println("Qual id você deseja fazer a alteraçã0?");
+                    int idUsuario = Integer.parseInt(input.nextLine());
+
+                    Usuario usuario = new Usuario();
+                    usuario.setId_usuario(idUsuario);
+
+                    System.out.println("Digite um novo nome para o usuario");
+                    usuario.setNome_usuario(input.nextLine());
+
+                    System.out.println("Digite um novo e-mail do usuario");
+                    usuario.setEmail_usuario(input.nextLine());
+
+                    System.out.println("Digite a nova senha do usuario");
+                    usuario.setSenha_usuario(input.nextLine());
+
+                    usuario.setData_registro(new Date());
+
+                    try{
+                       boolean editado = usuarioService.editarUsuario(usuario);
+                        System.out.println("Edição do usuario: " + editado);
+
+                    }catch(Exception e){
+                        System.err.println(e.getMessage());
+                    }
 
                 }
 

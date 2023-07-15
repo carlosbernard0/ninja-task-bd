@@ -91,4 +91,40 @@ public class UsuarioRepository {
         }
 
     }
+
+    public boolean editarUsuario(Usuario usuario){
+        Connection connection = null;
+        try {
+            //abrir conexao
+            connection = ConexaoDB.getConnection();
+
+            //update
+            String sql= "Update Usuario set nome_usuario = ?, email_usuario = ?, senha_usuario = ?, data_registro = ? where id_usuario = ? ";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setString(1, usuario.getNome_usuario());
+            preparedStatement.setString(2, usuario.getEmail_usuario());
+            preparedStatement.setString(3, usuario.getSenha_usuario());
+            preparedStatement.setDate(4, new Date(usuario.getData_registro().getTime()));
+            preparedStatement.setInt(5,usuario.getId_usuario());
+
+            //executar
+            preparedStatement.executeUpdate();
+            System.out.println("Atualizando o usario...");
+            return true;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                if (connection != null && !connection.isClosed()) {
+                    connection.close();
+                }
+
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
 }
