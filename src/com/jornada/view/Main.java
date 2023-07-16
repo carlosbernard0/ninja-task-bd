@@ -2,6 +2,7 @@
 package com.jornada.view;
 
 import com.jornada.entity.Usuario;
+import com.jornada.service.CadernoService;
 import com.jornada.service.UsuarioService;
 
 import java.sql.SQLException;
@@ -13,6 +14,8 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         UsuarioService usuarioService = new UsuarioService();
+        CadernoService cadernoService = new CadernoService();
+
         boolean loginVerification = false;
 
         Scanner input = new Scanner(System.in);
@@ -28,8 +31,9 @@ public class Main {
                     -- MENU  --
                     
                     -- (1) Criar Usuário
-                    -- (2) Entrar em um usuário existente
-                    -- (3) Apagar usuário existente
+                    -- (2) Listar Usuarios
+                    -- (3) Editar Usuarios
+                    -- (4) Excluir Usuario
                     -- (0) Sair do programa
                     
                     """);
@@ -40,29 +44,79 @@ public class Main {
             switch (userMenuSelection) {
                 case 0 -> System.exit(0);
                 case 1 -> {
+                    Usuario usuario = new Usuario();
                     System.out.println("\n-- CRIAÇÃO DE USUÁRIO --\n");
                     System.out.print("-- Digite o nome do usuário: ");
                     String registerUserName = input.nextLine();
+                    usuario.setNome_usuario(registerUserName);
+
                     System.out.print("-- Digite o email do usuário: ");
                     String registerUserEmail = input.nextLine();
+                    usuario.setEmail_usuario(registerUserEmail);
+
                     System.out.print("-- Digite a senha do usuário: ");
                     String registerUserPassword = input.nextLine();
-                    System.out.println("\n-- Usuário criado com sucesso | ID = # "); //Colocar o id
+                    usuario.setSenha_usuario(registerUserPassword);
 
-                    System.out.println("\n-- Logado como " + registerUserName + "!");
+                    usuario.setData_registro(new Date());
+
+                    try{
+                        Usuario usuarioSalvo = usuarioService.salvarUsuario(usuario);
+                        System.out.println("\n-- Usuário criado com sucesso | ID = #" + usuario.getId_usuario()); //Colocar o id
+//                        System.out.println("Usuario salvo!!");
+//                        System.out.println(usuario.getId_usuario());
+                    }catch (Exception e){
+                        System.err.println(e.getMessage());
+                    }
+
+//
+//                    System.out.println("\n-- Logado como " + registerUserName + "!");
                 }
                 case 2 -> {
-                    // LOGIN
+                    usuarioService.listar();
 
-                    System.out.println("-- LOGIN --");
+                }
+                case 3 -> {
+                    usuarioService.listar();
+                    System.out.println("-- Qual id você deseja fazer a alteraçã0?");
+                    int idUsuario = Integer.parseInt(input.nextLine());
 
-                    System.out.print("-- Id: ");
-                    String tempLoginId = input.nextLine();
-                    System.out.println("-- Senha: ");
-                    String tempLoginPassword = input.nextLine();
+                    Usuario usuario = new Usuario();
+                    usuario.setId_usuario(idUsuario);
 
-//                   if(tempLoginPassword == SENHA)
+                    System.out.println("-- Digite um novo nome para o usuario");
+                    usuario.setNome_usuario(input.nextLine());
 
+                    System.out.println("-- Digite um novo e-mail do usuario");
+                    usuario.setEmail_usuario(input.nextLine());
+
+                    System.out.println("-- Digite a nova senha do usuario");
+                    usuario.setSenha_usuario(input.nextLine());
+
+                    usuario.setData_registro(new Date());
+
+                    try{
+                        boolean editado = usuarioService.editarUsuario(usuario);
+                        if (editado){
+                            System.out.println("-- Usuario editado com sucesso!");
+                        }else{
+                            System.out.println("-- ERROR: Edição não finalizada ");
+                        }
+
+                    }catch(Exception e){
+                        System.err.println(e.getMessage());
+                    }
+                }
+                case 4 -> {
+                    System.out.println("-- Qual id você deseja excluir?");
+                    int idUsuario = Integer.parseInt(input.nextLine());
+
+                    boolean excluido = usuarioService.excluirUsuario(idUsuario);
+                    if (excluido){
+                            System.out.println("-- Usuario excluido com sucesso!");
+                    }else{
+                            System.out.println("-- ERROR: Exclusão não finalizada! ");
+                    }
                 }
 
             }
@@ -75,11 +129,12 @@ public class Main {
 
                 System.out.println("""
                         
-                        -- MENU LISTA -- 
+                        -- MENU -- 
                         
-                        -- (1) Criar nova lista
+                        -- (1) Criar novo Caderno
                         -- (2) Entrar em uma lista existente
-                        -- (3) Mostrar listas 
+                        -- (3) Excluir Usuario
+                        -- (4) Apagar usuário existente
                         -- (0) Sair do programa
                         
                         """);
@@ -109,74 +164,16 @@ public class Main {
 
 
             }
-
+            System.out.print("""
+                    
+                    -- OPÇÕES --
+                        
+                    -- (1) Continuar 
+                    -- (0) Sair do programa
+                        
+                    """);
             firstMenuSelection = Integer.parseInt(input.nextLine());
 
-            switch (firstMenuSelection){
-                case 1 -> {
-                    Usuario usuario = new Usuario();
-                    System.out.println("Digite o nome do usuario");
-                    usuario.setNome_usuario(input.nextLine());
-
-                    System.out.println("Digite o e-mail do usuario");
-                    usuario.setEmail_usuario(input.nextLine());
-
-                    System.out.println("Digite o senha do usuario");
-                    usuario.setSenha_usuario(input.nextLine());
-
-                    usuario.setData_registro(new Date());
-
-                    try{
-                        Usuario usuarioSalvo = usuarioService.salvarUsuario(usuario);
-                        System.out.println("Usuario salvo!!");
-                    }catch (Exception e){
-                        System.err.println(e.getMessage());
-                    }
-
-                }
-                case 2 ->{
-                    usuarioService.listar();
-                }
-                case 3 -> {
-                    usuarioService.listar();
-                    System.out.println("Qual id você deseja fazer a alteraçã0?");
-                    int idUsuario = Integer.parseInt(input.nextLine());
-
-                    Usuario usuario = new Usuario();
-                    usuario.setId_usuario(idUsuario);
-
-                    System.out.println("Digite um novo nome para o usuario");
-                    usuario.setNome_usuario(input.nextLine());
-
-                    System.out.println("Digite um novo e-mail do usuario");
-                    usuario.setEmail_usuario(input.nextLine());
-
-                    System.out.println("Digite a nova senha do usuario");
-                    usuario.setSenha_usuario(input.nextLine());
-
-                    usuario.setData_registro(new Date());
-
-                    try{
-                        boolean editado = usuarioService.editarUsuario(usuario);
-                        System.out.println("Edição do usuario: " + editado);
-
-                    }catch(Exception e){
-                        System.err.println(e.getMessage());
-                    }
-
-                }
-
-                case 4 -> {
-                    usuarioService.listar();
-                    System.out.println("Qual id você deseja excluir?");
-                    int idUsuario = Integer.parseInt(input.nextLine());
-
-                    boolean excluido =usuarioService.excluirUsuario(idUsuario);
-                    System.out.println("Excluido = " + excluido);
-
-                }
-
-            }
 
         }while (firstMenuSelection != 0);
 

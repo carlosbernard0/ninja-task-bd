@@ -34,10 +34,11 @@ public class UsuarioRepository {
             preparedStatement.setString(4, usuario.getSenha_usuario());
             preparedStatement.setDate(5, new Date(usuario.getData_registro().getTime()));
 
-            int resposta = preparedStatement.executeUpdate();
-            System.out.println("salvarUsuarioDB.resposta: " + resposta);
+//            int resposta = preparedStatement.executeUpdate();
+//            System.out.println("salvarUsuarioDB.resposta: " + resposta);
 
             usuario.setId_usuario(idUsuario);
+
             return usuario;
 
         } catch (SQLException ex) {
@@ -111,7 +112,7 @@ public class UsuarioRepository {
 
             //executar
             preparedStatement.executeUpdate();
-            System.out.println("Atualizando o usario...");
+            System.out.println("-- Atualizando o usuário...");
             return true;
 
         } catch (SQLException e) {

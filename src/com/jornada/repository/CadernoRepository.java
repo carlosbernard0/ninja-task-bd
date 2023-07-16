@@ -2,6 +2,7 @@ package com.jornada.repository;
 
 import com.jornada.entity.Caderno;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -49,7 +50,28 @@ public class CadernoRepository {
         return null;
     }
 
-//    public Caderno listarCaderno(){
-//        List<Caderno> listaDeCaderno =
-//    }
-}
+//    public List<Caderno> listarCaderno(){
+//        List<Caderno> listaDeCaderno = new ArrayList<>();
+//
+//        Connection connection = null;
+//        try {
+//            //abrir conexao
+//            connection = ConexaoDB.getConnection();
+//
+//            String sql = "SELECT * FROM CADERNO";
+//
+//            ResultSet resultSet = connection.createStatement().executeQuery(sql);
+
+//            while (resultSet.next()){
+//                Caderno caderno = new Caderno();
+//                caderno.setIdCaderno(resultSet());
+//
+//            }
+
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }finally {
+//
+//        }
+//        }
+    }
