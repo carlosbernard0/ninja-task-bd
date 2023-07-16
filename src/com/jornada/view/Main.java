@@ -1,6 +1,7 @@
 // PACKAGES % IMPORTS
 package com.jornada.view;
 
+import com.jornada.entity.Caderno;
 import com.jornada.entity.Usuario;
 import com.jornada.service.CadernoService;
 import com.jornada.service.UsuarioService;
@@ -16,8 +17,7 @@ public class Main {
         UsuarioService usuarioService = new UsuarioService();
         CadernoService cadernoService = new CadernoService();
 
-        boolean loginVerification = false;
-
+        Integer idEscolhido;
         Scanner input = new Scanner(System.in);
 
         // MENU VIEW
@@ -28,13 +28,15 @@ public class Main {
             // SELEÇÃO -> USUARIO (falta case 3)
             System.out.println(
                     """
-                    -- MENU  --
+                    -- LOGIN/CADASTRO USUARIO  --
                     
                     -- (1) Criar Usuário
                     -- (2) Listar Usuarios
                     -- (3) Editar Usuarios
                     -- (4) Excluir Usuario
+                    -- (5) Entrar
                     -- (0) Sair do programa
+                    
                     
                     """);
 
@@ -118,48 +120,88 @@ public class Main {
                             System.out.println("-- ERROR: Exclusão não finalizada! ");
                     }
                 }
+                case 5->{
+                    System.out.print("-- Digite o seu id: ");
+                    idEscolhido = Integer.parseInt(input.nextLine());
 
-            }
+                    System.out.println("""
+                    
+                    -- MENU CADERNO --
+                    
+                    -- (1) Criar novo Caderno
+                    -- (2) Listar Cadernos
+                    -- (3) Apagar Caderno
+                    -- (4) Abrir Caderno
+                    -- (0) Sair do programa
+                    
+                    """);
+
+                    System.out.print("-- Qual ação deseja realizar?: ");
+                    byte selectListMenuCaderno = Byte.parseByte(input.nextLine());
+
+                    switch (selectListMenuCaderno) {
+                        case 0 -> System.exit(0);
+                        case 1 -> {
+//                            System.out.print("\n-- Nome do Caderno: ");
+//                            String tempListName = input.nextLine();
+                            try{//Criar Caderno
+                                Caderno c = new Caderno();
+
+                                System.out.println("-- Digite um nome para o caderno: ");
+                                c.setNomeCaderno(input.nextLine());
+
+                                cadernoService.salvarCaderno(idEscolhido, c);
+                                System.out.println("-- Caderno criado com sucesso! | ID #" + c.getIdCaderno());
+
+                            }catch (Exception e){
+                                e.getMessage();
+
+                            }
+                        }
+                        case 2 -> {
+                            cadernoService.listar();
 
 
-            // VERIFICAR SENHA
-            // GUARDAR EM "loginVerification" -> TRUE OU FALSE
+                        }
+                        case 3 -> {
+                            System.out.print("-- Qual id do caderno você deseja excluir?");
+                            int idCaderno = Integer.parseInt(input.nextLine());
 
-            if(loginVerification){
+                            boolean excluido = cadernoService.excluirCaderno(idCaderno);
+                            if (excluido){
+                                System.out.println("-- Usuario excluido com sucesso!");
+                            }else{
+                                System.out.println("-- ERROR: Exclusão não finalizada! ");
+                            }
+                        }
+                        case 4 -> {
+                            System.out.print("-- Digite o id do caderno: ");
+                            idEscolhido = Integer.parseInt(input.nextLine());
 
-                System.out.println("""
-                        
-                        -- MENU -- 
-                        
-                        -- (1) Criar novo Caderno
-                        -- (2) Entrar em uma lista existente
-                        -- (3) Excluir Usuario
-                        -- (4) Apagar usuário existente
-                        -- (0) Sair do programa
-                        
-                        """);
+                            System.out.println("""
+                    
+                            -- MENU TAREFA --
+                            
+                            -- (1) Criar nova Tarefa
+                            -- (2) Listar Tarefas
+                            -- (3) Editar Tarefa
+                            -- (4) Apagar Tarefa
+                            -- (0) Sair do programa
+                            
+                            """);
 
-                System.out.print("-- Qual ação deseja realizar?: ");
-                byte selectListMenu = Byte.parseByte(input.nextLine());
+                            System.out.print("-- Qual ação deseja realizar?: ");
+                            byte selectListMenuTarefa = Byte.parseByte(input.nextLine());
 
-                switch (selectListMenu) {
-                    case 0 -> System.exit(0);
-                    case 1 -> {
-                        System.out.print("\n-- Nome da lista: ");
-                        String tempListName = input.nextLine();
-
-                        // CRIAR LISTA
-
-                        System.out.print("\n-- Lista criada com sucesso!");
+                            switch (selectListMenuTarefa) {
+                                case 0 -> System.exit(0);
+                                case 1 -> {
+//                            System.out.print("\n-- Nome do Caderno: ");
+//                            String tempListName = input.nextLine();
+                                    try{//Criar Tarefa
+                        }
                     }
-                    case 2 -> {
-                        System.out.println("-- Digite o id da lista desejada: ");
-                        byte tempListId = Byte.parseByte(input.nextLine());
 
-                    }
-                    case 3 -> {
-                        // MOSTRAR NOME DE TODAS AS LISTAS + ID's
-                    }
                 }
 
 
@@ -173,6 +215,12 @@ public class Main {
                         
                     """);
             firstMenuSelection = Integer.parseInt(input.nextLine());
+
+
+            // VERIFICAR SENHA
+            // GUARDAR EM "loginVerification" -> TRUE OU FALSE
+
+
 
 
         }while (firstMenuSelection != 0);

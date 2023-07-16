@@ -26,6 +26,15 @@ public class Caderno {
     }
 
     public void setIdUsuario(Usuario idUsuario) {
-        this.idUsuario = idUsuario;
+            this.idUsuario = idUsuario;
+    }
+
+    @Override
+    public String toString() {
+        return "Caderno{" +
+                "idCaderno=" + idCaderno +
+                ", nomeCaderno='" + nomeCaderno + '\'' +
+                ", idUsuario=" + idUsuario +
+                '}';
     }
 }
