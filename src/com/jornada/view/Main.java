@@ -9,18 +9,23 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        System.out.println("Seja Bem Vindo ao Ninja Task");
-
         UsuarioService usuarioService = new UsuarioService();
 
         Scanner input = new Scanner(System.in);
+
         int opcao = -1;
         while (opcao != 0){
-            System.out.println("Digite 1 para criar Usuario");
-            System.out.println("Digite 2 para listar Usuario");
-            System.out.println("Digite 3 para editar Usuario");
-            System.out.println("Digite 4 para excluir Usuario");
-            opcao = input.nextInt();
+            System.out.println("***Seja Bem Vindo ao Ninja Task***");
+            System.out.println("""
+                O que deseja fazer:
+                1 - Criar Usuario
+                2 - Entrar em um usuario existente
+                3 - Sair do programa""");
+//            System.out.println("Digite 1 para criar Usuario");
+//            System.out.println("Digite 2 para listar Usuario");
+//            System.out.println("Digite 3 para editar Usuario");
+//            System.out.println("Digite 4 para excluir Usuario");
+            opcao = Integer.parseInt(input.nextLine());
 
             input.nextLine();
             switch (opcao){
