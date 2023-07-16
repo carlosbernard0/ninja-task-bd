@@ -1,3 +1,4 @@
+// PACKAGES % IMPORTS
 package com.jornada.view;
 
 import com.jornada.entity.Usuario;
@@ -7,28 +8,111 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.Scanner;
 
+// MAIN CLASS
 public class Main {
     public static void main(String[] args) throws Exception {
+
         UsuarioService usuarioService = new UsuarioService();
+        boolean loginVerification = false;
 
         Scanner input = new Scanner(System.in);
 
-        int opcao = -1;
-        while (opcao != 0){
-            System.out.println("***Seja Bem Vindo ao Ninja Task***");
-            System.out.println("""
-                O que deseja fazer:
-                1 - Criar Usuario
-                2 - Entrar em um usuario existente
-                3 - Sair do programa""");
-//            System.out.println("Digite 1 para criar Usuario");
-//            System.out.println("Digite 2 para listar Usuario");
-//            System.out.println("Digite 3 para editar Usuario");
-//            System.out.println("Digite 4 para excluir Usuario");
-            opcao = Integer.parseInt(input.nextLine());
+        // MENU VIEW
+        int firstMenuSelection = -1;
+        do{
+            System.out.println("*** SEJA BEM VINDO AO NINJA-TASK ***\n");
 
-            input.nextLine();
-            switch (opcao){
+            // SELEÇÃO -> USUARIO (falta case 3)
+            System.out.println(
+                    """
+                    -- MENU  --
+                    
+                    -- (1) Criar Usuário
+                    -- (2) Entrar em um usuário existente
+                    -- (3) Apagar usuário existente
+                    -- (0) Sair do programa
+                    
+                    """);
+
+            System.out.print("-- Digite a opção desejada: ");
+            byte userMenuSelection = Byte.parseByte(input.nextLine());
+
+            switch (userMenuSelection) {
+                case 0 -> System.exit(0);
+                case 1 -> {
+                    System.out.println("\n-- CRIAÇÃO DE USUÁRIO --\n");
+                    System.out.print("-- Digite o nome do usuário: ");
+                    String registerUserName = input.nextLine();
+                    System.out.print("-- Digite o email do usuário: ");
+                    String registerUserEmail = input.nextLine();
+                    System.out.print("-- Digite a senha do usuário: ");
+                    String registerUserPassword = input.nextLine();
+                    System.out.println("\n-- Usuário criado com sucesso | ID = # "); //Colocar o id
+
+                    System.out.println("\n-- Logado como " + registerUserName + "!");
+                }
+                case 2 -> {
+                    // LOGIN
+
+                    System.out.println("-- LOGIN --");
+
+                    System.out.print("-- Id: ");
+                    String tempLoginId = input.nextLine();
+                    System.out.println("-- Senha: ");
+                    String tempLoginPassword = input.nextLine();
+
+//                   if(tempLoginPassword == SENHA)
+
+                }
+
+            }
+
+
+            // VERIFICAR SENHA
+            // GUARDAR EM "loginVerification" -> TRUE OU FALSE
+
+            if(loginVerification){
+
+                System.out.println("""
+                        
+                        -- MENU LISTA -- 
+                        
+                        -- (1) Criar nova lista
+                        -- (2) Entrar em uma lista existente
+                        -- (3) Mostrar listas 
+                        -- (0) Sair do programa
+                        
+                        """);
+
+                System.out.print("-- Qual ação deseja realizar?: ");
+                byte selectListMenu = Byte.parseByte(input.nextLine());
+
+                switch (selectListMenu) {
+                    case 0 -> System.exit(0);
+                    case 1 -> {
+                        System.out.print("\n-- Nome da lista: ");
+                        String tempListName = input.nextLine();
+
+                        // CRIAR LISTA
+
+                        System.out.print("\n-- Lista criada com sucesso!");
+                    }
+                    case 2 -> {
+                        System.out.println("-- Digite o id da lista desejada: ");
+                        byte tempListId = Byte.parseByte(input.nextLine());
+
+                    }
+                    case 3 -> {
+                        // MOSTRAR NOME DE TODAS AS LISTAS + ID's
+                    }
+                }
+
+
+            }
+
+            firstMenuSelection = Integer.parseInt(input.nextLine());
+
+            switch (firstMenuSelection){
                 case 1 -> {
                     Usuario usuario = new Usuario();
                     System.out.println("Digite o nome do usuario");
@@ -73,7 +157,7 @@ public class Main {
                     usuario.setData_registro(new Date());
 
                     try{
-                       boolean editado = usuarioService.editarUsuario(usuario);
+                        boolean editado = usuarioService.editarUsuario(usuario);
                         System.out.println("Edição do usuario: " + editado);
 
                     }catch(Exception e){
@@ -91,7 +175,11 @@ public class Main {
                     System.out.println("Excluido = " + excluido);
 
                 }
+
             }
-        }
+
+        }while (firstMenuSelection != 0);
+
     }
+
 }

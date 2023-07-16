@@ -35,7 +35,7 @@ public class UsuarioRepository {
             preparedStatement.setDate(5, new Date(usuario.getData_registro().getTime()));
 
             int resposta = preparedStatement.executeUpdate();
-            System.out.println("salvarUsuarioDB.resposta" + resposta);
+            System.out.println("salvarUsuarioDB.resposta: " + resposta);
 
             usuario.setId_usuario(idUsuario);
             return usuario;

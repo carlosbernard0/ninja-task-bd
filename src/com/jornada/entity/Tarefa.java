@@ -3,5 +3,5 @@ package com.jornada.entity;
 public class Tarefa {
     private String nome, status;
     private Integer idTarefa, prioridadeTarefa;
-    private Lista idLista;
+    private Caderno idCaderno;
 }
