@@ -2,9 +2,11 @@
 package com.jornada.view;
 
 import com.jornada.entity.Caderno;
+import com.jornada.entity.Tarefa;
 import com.jornada.entity.Usuario;
 import com.jornada.service.CadernoService;
 import com.jornada.service.UsuarioService;
+import com.jornada.service.TarefaService;
 
 import java.sql.SQLException;
 import java.util.Date;
@@ -16,29 +18,30 @@ public class Main {
 
         UsuarioService usuarioService = new UsuarioService();
         CadernoService cadernoService = new CadernoService();
+        TarefaService tarefaService = new TarefaService();
 
         Integer idEscolhido;
         Scanner input = new Scanner(System.in);
 
         // MENU VIEW
         int firstMenuSelection = -1;
-        do{
+        do {
             System.out.println("*** SEJA BEM VINDO AO NINJA-TASK ***\n");
 
             // SELEÇÃO -> USUARIO (falta case 3)
             System.out.println(
                     """
-                    -- LOGIN/CADASTRO USUARIO  --
-                    
-                    -- (1) Criar Usuário
-                    -- (2) Listar Usuarios
-                    -- (3) Editar Usuarios
-                    -- (4) Excluir Usuario
-                    -- (5) Entrar
-                    -- (0) Sair do programa
-                    
-                    
-                    """);
+                            -- LOGIN/CADASTRO USUARIO  --
+                                                
+                            -- (1) Criar Usuário
+                            -- (2) Listar Usuarios
+                            -- (3) Editar Usuarios
+                            -- (4) Excluir Usuario
+                            -- (5) Entrar no Caderno
+                            -- (0) Sair do programa
+                                                
+                                                
+                            """);
 
             System.out.print("-- Digite a opção desejada: ");
             byte userMenuSelection = Byte.parseByte(input.nextLine());
@@ -62,12 +65,12 @@ public class Main {
 
                     usuario.setData_registro(new Date());
 
-                    try{
+                    try {
                         Usuario usuarioSalvo = usuarioService.salvarUsuario(usuario);
                         System.out.println("\n-- Usuário criado com sucesso | ID = #" + usuario.getId_usuario()); //Colocar o id
 //                        System.out.println("Usuario salvo!!");
 //                        System.out.println(usuario.getId_usuario());
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         System.err.println(e.getMessage());
                     }
 
@@ -97,15 +100,15 @@ public class Main {
 
                     usuario.setData_registro(new Date());
 
-                    try{
+                    try {
                         boolean editado = usuarioService.editarUsuario(usuario);
-                        if (editado){
+                        if (editado) {
                             System.out.println("-- Usuario editado com sucesso!");
-                        }else{
+                        } else {
                             System.out.println("-- ERROR: Edição não finalizada ");
                         }
 
-                    }catch(Exception e){
+                    } catch (Exception e) {
                         System.err.println(e.getMessage());
                     }
                 }
@@ -114,117 +117,133 @@ public class Main {
                     int idUsuario = Integer.parseInt(input.nextLine());
 
                     boolean excluido = usuarioService.excluirUsuario(idUsuario);
-                    if (excluido){
-                            System.out.println("-- Usuario excluido com sucesso!");
-                    }else{
-                            System.out.println("-- ERROR: Exclusão não finalizada! ");
+                    if (excluido) {
+                        System.out.println("-- Usuario excluido com sucesso!");
+                    } else {
+                        System.out.println("-- ERROR: Exclusão não finalizada! ");
                     }
                 }
-                case 5->{
+                case 5 -> {
                     System.out.print("-- Digite o seu id: ");
                     idEscolhido = Integer.parseInt(input.nextLine());
+                    byte selectListMenuCaderno;
+                    do {
+
+                        System.out.println("""
+                                                    
+                                -- MENU CADERNO --
+                                                    
+                                -- (1) Criar novo Caderno
+                                -- (2) Listar Cadernos
+                                -- (3) Apagar Caderno
+                                -- (4) Tarefas do Caderno
+                                -- (0) Sair do programa
+                                                    
+                                """);
+
+                        System.out.print("-- Qual ação deseja realizar?: ");
+                        selectListMenuCaderno = Byte.parseByte(input.nextLine());
+
+                        switch (selectListMenuCaderno) {
+                            case 0 -> System.exit(0);
+                            case 1 -> {
+                                //                            System.out.print("\n-- Nome do Caderno: ");
+                                //                            String tempListName = input.nextLine();
+                                try {//Criar Caderno
+                                    Caderno c = new Caderno();
+
+                                    System.out.println("-- Digite um nome para o caderno: ");
+                                    c.setNomeCaderno(input.nextLine());
+
+                                    cadernoService.salvarCaderno(idEscolhido, c);
+                                    System.out.println("-- Caderno criado com sucesso! | ID #" + c.getIdCaderno());
+
+                                } catch (Exception e) {
+                                    e.getMessage();
+
+                                }
+                            }
+                            case 2 -> {
+                                cadernoService.listar();
+
+
+                            }
+                            case 3 -> {
+                                System.out.print("-- Qual id do caderno você deseja excluir?");
+                                int idCaderno = Integer.parseInt(input.nextLine());
+
+                                boolean excluido = cadernoService.excluirCaderno(idCaderno);
+                                if (excluido) {
+                                    System.out.println("-- Usuario excluido com sucesso!");
+                                } else {
+                                    System.out.println("-- ERROR: Exclusão não finalizada! ");
+                                }
+                            }
+                            case 4 -> {
+                                System.out.print("-- Digite o id do caderno: ");
+                                idEscolhido = Integer.parseInt(input.nextLine());
+                                byte selectListMenuTarefa;
+                                do {
+                                    System.out.println("""
+                                                                
+                                            -- MENU TAREFA --
+                                                                        
+                                            -- (1) Criar nova Tarefa
+                                            -- (2) Listar Tarefas
+                                            -- (3) Editar Tarefa
+                                            -- (4) Apagar Tarefa
+                                            -- (0) Sair do programa
+                                                                        
+                                            """);
+
+                                    System.out.print("-- Qual ação deseja realizar?: ");
+                                    selectListMenuTarefa = Byte.parseByte(input.nextLine());
+
+                                    switch (selectListMenuTarefa) {
+                                        case 0 -> System.exit(0);
+                                        case 1 -> {
+                                            try {//Criar Tarefa
+                                                Tarefa t = new Tarefa();
+
+                                                System.out.print("-- Digite um nome para a tarefa: ");
+                                                t.setNome(input.nextLine());
+
+                                                System.out.print("-- Digite um status para a tarefa: ");
+                                                t.setStatus(input.nextLine());
+
+                                                tarefaService.salvarTarefa(idEscolhido, t);
+                                                System.out.println("-- Tarefa criada com sucesso! | ID #" + t.getIdTarefa());
+
+                                            } catch (Exception e) {
+                                                e.getMessage();
+
+                                            }
+                                        }
+                                        case 2 ->{
+                                            tarefaService.listarTarefas();
+                                        }
+                                    }
+
+                                } while (selectListMenuTarefa != 0);
+
+                            }
+
+                        }
+                    } while (selectListMenuCaderno != 0);
 
                     System.out.println("""
-                    
-                    -- MENU CADERNO --
-                    
-                    -- (1) Criar novo Caderno
-                    -- (2) Listar Cadernos
-                    -- (3) Apagar Caderno
-                    -- (4) Abrir Caderno
-                    -- (0) Sair do programa
-                    
-                    """);
-
-                    System.out.print("-- Qual ação deseja realizar?: ");
-                    byte selectListMenuCaderno = Byte.parseByte(input.nextLine());
-
-                    switch (selectListMenuCaderno) {
-                        case 0 -> System.exit(0);
-                        case 1 -> {
-//                            System.out.print("\n-- Nome do Caderno: ");
-//                            String tempListName = input.nextLine();
-                            try{//Criar Caderno
-                                Caderno c = new Caderno();
-
-                                System.out.println("-- Digite um nome para o caderno: ");
-                                c.setNomeCaderno(input.nextLine());
-
-                                cadernoService.salvarCaderno(idEscolhido, c);
-                                System.out.println("-- Caderno criado com sucesso! | ID #" + c.getIdCaderno());
-
-                            }catch (Exception e){
-                                e.getMessage();
-
-                            }
-                        }
-                        case 2 -> {
-                            cadernoService.listar();
-
-
-                        }
-                        case 3 -> {
-                            System.out.print("-- Qual id do caderno você deseja excluir?");
-                            int idCaderno = Integer.parseInt(input.nextLine());
-
-                            boolean excluido = cadernoService.excluirCaderno(idCaderno);
-                            if (excluido){
-                                System.out.println("-- Usuario excluido com sucesso!");
-                            }else{
-                                System.out.println("-- ERROR: Exclusão não finalizada! ");
-                            }
-                        }
-                        case 4 -> {
-                            System.out.print("-- Digite o id do caderno: ");
-                            idEscolhido = Integer.parseInt(input.nextLine());
-
-                            System.out.println("""
-                    
-                            -- MENU TAREFA --
-                            
-                            -- (1) Criar nova Tarefa
-                            -- (2) Listar Tarefas
-                            -- (3) Editar Tarefa
-                            -- (4) Apagar Tarefa
-                            -- (0) Sair do programa
-                            
+                            -- (1) Continuar
+                            -- (0) Sair
                             """);
+                    firstMenuSelection = Integer.parseInt(input.nextLine());
 
-                            System.out.print("-- Qual ação deseja realizar?: ");
-                            byte selectListMenuTarefa = Byte.parseByte(input.nextLine());
-
-                            switch (selectListMenuTarefa) {
-                                case 0 -> System.exit(0);
-                                case 1 -> {
-//                            System.out.print("\n-- Nome do Caderno: ");
-//                            String tempListName = input.nextLine();
-                                    try{//Criar Tarefa
-                        }
-                    }
 
                 }
 
 
             }
-            System.out.print("""
-                    
-                    -- OPÇÕES --
-                        
-                    -- (1) Continuar 
-                    -- (0) Sair do programa
-                        
-                    """);
-            firstMenuSelection = Integer.parseInt(input.nextLine());
 
-
-            // VERIFICAR SENHA
-            // GUARDAR EM "loginVerification" -> TRUE OU FALSE
-
-
-
-
-        }while (firstMenuSelection != 0);
-
+        } while (firstMenuSelection != 0);
     }
-
 }
+
