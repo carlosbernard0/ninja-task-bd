@@ -113,4 +113,45 @@ public class CadernoRepository {
             }
         }
     }
+
+    //listar cadernos por id usuario
+    public List<Caderno> listarPorIdUsuario(Integer idUsuario){
+        Connection connection = null;
+        List<Caderno> listaDeCaderno = new ArrayList<>();
+        try {
+            //abrir conexao
+            connection = ConexaoDB.getConnection();
+
+            String sql = "SELECT c.*, u.*\n" +
+                    "\tFROM CADERNO c \n" +
+                    "\tright JOIN USUARIO u ON (u.ID_USUARIO = c.ID_USUARIO)\n" +
+                    "\tWHERE u.ID_USUARIO = ?";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setInt(1,idUsuario);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Caderno caderno = new Caderno();
+                caderno.setIdCaderno(resultSet.getInt("id_caderno"));
+                caderno.setNomeCaderno(resultSet.getString("nome_caderno"));
+//                caderno.setIdUsuario(resultSet.getInt("id_usuario"));
+                listaDeCaderno.add(caderno);
+                Usuario usuario = new Usuario();
+//                usuario.setId_usuario();
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                if (connection != null && !connection.isClosed()) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return listaDeCaderno;
+        }
+    }
 }
