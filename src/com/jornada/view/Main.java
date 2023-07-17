@@ -150,16 +150,18 @@ public class Main {
                         switch (selectListMenuCaderno) {
                             case 0 -> System.exit(0);
                             case 1 -> {
-                                //                            System.out.print("\n-- Nome do Caderno: ");
-                                //                            String tempListName = input.nextLine();
                                 try {//Criar Caderno
-                                    Caderno c = new Caderno();
+                                    Caderno caderno = new Caderno();
+                                    Usuario usuario = new Usuario();
 
                                     System.out.println("-- Digite um nome para o caderno: ");
-                                    c.setNomeCaderno(input.nextLine());
+                                    caderno.setNomeCaderno(input.nextLine());
 
-                                    cadernoService.salvarCaderno(idEscolhido, c);
-                                    System.out.println("-- Caderno criado com sucesso! | ID #" + c.getIdCaderno());
+                                    usuario.setId_usuario(idEscolhido);
+                                    caderno.setUsuario(usuario);
+
+                                    cadernoService.salvarCaderno(caderno);
+                                    System.out.println("-- Caderno criado com sucesso! | ID #" + caderno.getIdCaderno());
 
                                 } catch (Exception e) {
                                     e.getMessage();
@@ -215,7 +217,10 @@ public class Main {
                                                 System.out.print("-- Digite um status para a tarefa: ");
                                                 t.setStatus(input.nextLine());
 
-                                                tarefaService.salvarTarefa(idEscolhido, t);
+                                                caderno.setIdCaderno(idEscolhido);
+                                                t.setCaderno(caderno);
+
+                                                tarefaService.salvarTarefa(t);
                                                 System.out.println("-- Tarefa criada com sucesso! | ID #" + t.getIdTarefa());
 
                                                 caderno.setIdCaderno(idEscolhido);

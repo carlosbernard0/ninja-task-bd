@@ -9,7 +9,7 @@ import java.util.List;
 
 
 public class CadernoRepository {
-    public Caderno criarCaderno(Integer idusuario, Caderno caderno) {
+    public Caderno criarCaderno(Caderno caderno) {
         Connection connection = null;
         try {
             //abrir conexao
@@ -30,7 +30,7 @@ public class CadernoRepository {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, idCaderno);
             preparedStatement.setString(2, caderno.getNomeCaderno());
-            preparedStatement.setInt(3, idusuario);
+            preparedStatement.setInt(3, caderno.getUsuario().getId_usuario());
 
             preparedStatement.executeUpdate();
             caderno.setIdCaderno(idCaderno);

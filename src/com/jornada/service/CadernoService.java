@@ -12,8 +12,8 @@ public class CadernoService {
         cadernoRepository = new CadernoRepository();
     }
 
-    public Caderno salvarCaderno(Integer idUsuario, Caderno caderno){
-        Caderno cadernoSalvo = cadernoRepository.criarCaderno(idUsuario, caderno);
+    public Caderno salvarCaderno(Caderno caderno){
+        Caderno cadernoSalvo = cadernoRepository.criarCaderno(caderno);
         return cadernoSalvo;
     }
 

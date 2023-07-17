@@ -15,8 +15,8 @@ public class TarefaService {
         tarefaRepository = new TarefaRepository();
     }
 
-    public Tarefa salvarTarefa(Integer idCaderno, Tarefa tarefa){
-        Tarefa tarefaSalva = tarefaRepository.criarTarefa(idCaderno, tarefa);
+    public Tarefa salvarTarefa(Tarefa tarefa){
+        Tarefa tarefaSalva = tarefaRepository.criarTarefa(tarefa);
         return tarefa;
     }
 

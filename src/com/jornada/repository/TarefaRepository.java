@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TarefaRepository {
-    public Tarefa criarTarefa(Integer idCaderno,Tarefa tarefa) {
+    public Tarefa criarTarefa(Tarefa tarefa) {
         Connection connection = null;
         try {
             connection = ConexaoDB.getConnection();
@@ -31,7 +31,7 @@ public class TarefaRepository {
             preparedStatement.setInt(1, idTarefa);
             preparedStatement.setString(2, tarefa.getNome());
             preparedStatement.setString(3, tarefa.getStatus());
-            preparedStatement.setInt(4, idCaderno);
+            preparedStatement.setInt(4, tarefa.getCaderno().getIdCaderno());
 
 //            int resposta = preparedStatement.executeUpdate();
 //            System.out.println("salvarUsuarioDB.resposta: " + resposta);
