@@ -3,7 +3,7 @@ package com.jornada.entity;
 public class Tarefa {
     private String nome, status;
     private Integer idTarefa;
-    private Caderno idCaderno;
+    private Caderno caderno;
 
     public String getNome() {
         return nome;
@@ -29,12 +29,12 @@ public class Tarefa {
         this.idTarefa = idTarefa;
     }
 
-    public Caderno getIdCaderno() {
-        return idCaderno;
+    public Caderno getCaderno() {
+        return caderno;
     }
 
-    public void setIdCaderno(Caderno idCaderno) {
-        this.idCaderno = idCaderno;
+    public void setCaderno(Caderno caderno) {
+        this.caderno = caderno;
     }
 
     @Override
@@ -43,7 +43,7 @@ public class Tarefa {
                 "nome='" + nome + '\'' +
                 ", status='" + status + '\'' +
                 ", idTarefa=" + idTarefa +
-                ", idCaderno=" + idCaderno +
+                ", idCaderno=" + caderno +
                 '}';
     }
 }
