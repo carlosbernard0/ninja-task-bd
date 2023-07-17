@@ -7,13 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UsuarioRepository {
-    public Usuario salvarUsuarioDB(Usuario usuario) {
+    public Usuario cadastrarUsuario(Usuario usuario) {
         Connection connection = null;
         try {
             connection = ConexaoDB.getConnection();
 
-            String sql = "INSERT INTO USUARIO " +
-                    " (ID_USUARIO, NOME_USUARIO, EMAIL_USUARIO,SENHA_USUARIO, DATA_REGISTRO)" +
+            String sql = "INSERT INTO USUARIO (ID_USUARIO, NOME_USUARIO, EMAIL_USUARIO,SENHA_USUARIO, DATA_REGISTRO)" +
                     "VALUES (?,?,?,?,?)";
 
             String sqlSequence = "select seq_usuario.nextval proxval from DUAL";
@@ -28,17 +27,21 @@ public class UsuarioRepository {
             }
 
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
             preparedStatement.setInt(1, idUsuario);
             preparedStatement.setString(2, usuario.getNome_usuario());
             preparedStatement.setString(3, usuario.getEmail_usuario());
             preparedStatement.setString(4, usuario.getSenha_usuario());
             preparedStatement.setDate(5, new Date(usuario.getData_registro().getTime()));
 
+            preparedStatement.executeUpdate();
+            usuario.setId_usuario(idUsuario);
+
 //            int resposta = preparedStatement.executeUpdate();
 //            System.out.println("salvarUsuarioDB.resposta: " + resposta);
 
-            usuario.setId_usuario(idUsuario);
 
+            System.out.println("Usuario cadastrado repository");
             return usuario;
 
         } catch (SQLException ex) {

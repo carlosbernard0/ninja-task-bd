@@ -25,4 +25,12 @@ public class TarefaService {
         lista.stream().forEach(System.out::println);
         return lista;
     }
+
+    public boolean editarTarefa(Tarefa tarefa) throws Exception {
+        return tarefaRepository.editarTarefa(tarefa);
+    }
+
+    public boolean excluirTarefa(Integer idTarefa){
+        return this.tarefaRepository.excluirTarefa(idTarefa);
+    }
 }

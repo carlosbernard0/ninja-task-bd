@@ -12,11 +12,17 @@ public class UsuarioService {
     public UsuarioService(){
         usuarioRepository = new UsuarioRepository();
     }
+    public void validarUsuario(Usuario usuario) throws Exception {
+        if (!usuario.getEmail_usuario().contains("@")){
+            throw new Exception("Precisa ter @");
+        }
+    }
     public Usuario salvarUsuario(Usuario usuario) throws Exception{
         validarUsuario(usuario);
 
-        Usuario usuarioSalvo = usuarioRepository.salvarUsuarioDB(usuario);
-        System.out.println("\n");
+        Usuario usuarioSalvo = usuarioRepository.cadastrarUsuario(usuario);
+
+        System.out.println("Usuario cadastrado service!");
         return usuarioSalvo;
     }
 
@@ -31,11 +37,7 @@ public class UsuarioService {
         return usuarioRepository.editarUsuario(usuario);
     }
 
-    public void validarUsuario(Usuario usuario) throws Exception {
-        if (!usuario.getEmail_usuario().contains("@")){
-            throw new Exception("Precisa ter @");
-        }
-    }
+
 
     public boolean excluirUsuario(Integer idUsuario){
         return this.usuarioRepository.excluirUsuario(idUsuario);

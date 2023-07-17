@@ -1,7 +1,6 @@
 package com.jornada.repository;
 
 import com.jornada.entity.Tarefa;
-import com.jornada.entity.Usuario;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,8 +12,7 @@ public class TarefaRepository {
         try {
             connection = ConexaoDB.getConnection();
 
-            String sql = "INSERT INTO TAREFA " +
-                    " (ID_TAREFA, NOME_TAREFA, STATUS_TAREFA, ID_CADERNO)" +
+            String sql = "INSERT INTO TAREFA (ID_TAREFA, NOME_TAREFA, STATUS_TAREFA, ID_CADERNO)" +
                     "VALUES (?,?,?,?)";
 
             String sqlSequence = "select seq_tarefa.nextval proxval from DUAL";
@@ -29,6 +27,7 @@ public class TarefaRepository {
             }
 
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
             preparedStatement.setInt(1, idTarefa);
             preparedStatement.setString(2, tarefa.getNome());
             preparedStatement.setString(3, tarefa.getStatus());
@@ -36,7 +35,7 @@ public class TarefaRepository {
 
 //            int resposta = preparedStatement.executeUpdate();
 //            System.out.println("salvarUsuarioDB.resposta: " + resposta);
-
+            preparedStatement.executeUpdate();
             tarefa.setIdTarefa(idTarefa);
 
             return tarefa;
@@ -72,7 +71,7 @@ public class TarefaRepository {
                 tarefa.setIdTarefa(resultSet.getInt("id_tarefa"));
                 tarefa.setNome(resultSet.getString("nome_tarefa"));
                 tarefa.setStatus(resultSet.getString("status_tarefa"));
-                tarefa.getIdCaderno();
+                tarefa.getCaderno();
 
 
                 listaDeTarefas.add(tarefa);
@@ -92,4 +91,69 @@ public class TarefaRepository {
         }
 
     }
+
+    public boolean editarTarefa(Tarefa tarefa){
+        Connection connection = null;
+        try {
+            //abrir conexao
+            connection = ConexaoDB.getConnection();
+
+            //update
+            String sql= "Update Tarefa set nome_tarefa = ?, status_tarefa = ?, id_caderno = ? where id_tarefa = ?";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setInt(1, tarefa.getIdTarefa());
+            preparedStatement.setString(2, tarefa.getNome());
+            preparedStatement.setString(3, tarefa.getStatus());
+            preparedStatement.setInt(4, tarefa.getCaderno().getIdCaderno());
+
+            //executar
+            preparedStatement.executeUpdate();
+            System.out.println("-- Atualizando o usuário...");
+            return true;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                if (connection != null && !connection.isClosed()) {
+                    connection.close();
+                }
+
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    public boolean excluirTarefa(Integer idTarefa){
+        Connection connection = null;
+        try {
+            connection = ConexaoDB.getConnection();
+
+            String sql = "delete from tarefa where id_tarefa = ? ";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1,idTarefa);
+
+            int resultadoExcluir = preparedStatement.executeUpdate();
+            return resultadoExcluir > 0;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                if (connection != null && !connection.isClosed()) {
+                    connection.close();
+                }
+
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            System.out.println("erro no banco");
+        }
+
+    }
+
 }

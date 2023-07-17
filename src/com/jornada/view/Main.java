@@ -20,7 +20,7 @@ public class Main {
         CadernoService cadernoService = new CadernoService();
         TarefaService tarefaService = new TarefaService();
 
-        Integer idEscolhido;
+        int idEscolhido;
         Scanner input = new Scanner(System.in);
 
         // MENU VIEW
@@ -52,30 +52,31 @@ public class Main {
                     Usuario usuario = new Usuario();
                     System.out.println("\n-- CRIAÇÃO DE USUÁRIO --\n");
                     System.out.print("-- Digite o nome do usuário: ");
-                    String registerUserName = input.nextLine();
-                    usuario.setNome_usuario(registerUserName);
+                    usuario.setNome_usuario(input.nextLine());
+//                    String registerUserName = input.nextLine();
+//                    usuario.setNome_usuario(registerUserName);
 
                     System.out.print("-- Digite o email do usuário: ");
-                    String registerUserEmail = input.nextLine();
-                    usuario.setEmail_usuario(registerUserEmail);
+                    usuario.setEmail_usuario(input.nextLine());
+//                    String registerUserEmail = input.nextLine();
+//                    usuario.setEmail_usuario(registerUserEmail);
 
                     System.out.print("-- Digite a senha do usuário: ");
-                    String registerUserPassword = input.nextLine();
-                    usuario.setSenha_usuario(registerUserPassword);
+                    usuario.setSenha_usuario(input.nextLine());
+//                    String registerUserPassword = input.nextLine();
+//                    usuario.setSenha_usuario(registerUserPassword);
 
                     usuario.setData_registro(new Date());
 
                     try {
                         Usuario usuarioSalvo = usuarioService.salvarUsuario(usuario);
                         System.out.println("\n-- Usuário criado com sucesso | ID = #" + usuario.getId_usuario()); //Colocar o id
-//                        System.out.println("Usuario salvo!!");
 //                        System.out.println(usuario.getId_usuario());
+//                        System.out.println("Usuario salvo!!");
                     } catch (Exception e) {
                         System.err.println(e.getMessage());
                     }
 
-//
-//                    System.out.println("\n-- Logado como " + registerUserName + "!");
                 }
                 case 2 -> {
                     usuarioService.listar();
@@ -100,6 +101,7 @@ public class Main {
 
                     usuario.setData_registro(new Date());
 
+
                     try {
                         boolean editado = usuarioService.editarUsuario(usuario);
                         if (editado) {
@@ -113,6 +115,7 @@ public class Main {
                     }
                 }
                 case 4 -> {
+                    usuarioService.listar();
                     System.out.println("-- Qual id você deseja excluir?");
                     int idUsuario = Integer.parseInt(input.nextLine());
 
@@ -174,7 +177,7 @@ public class Main {
 
                                 boolean excluido = cadernoService.excluirCaderno(idCaderno);
                                 if (excluido) {
-                                    System.out.println("-- Usuario excluido com sucesso!");
+                                    System.out.println("-- Caderno excluido com sucesso!");
                                 } else {
                                     System.out.println("-- ERROR: Exclusão não finalizada! ");
                                 }
@@ -204,6 +207,7 @@ public class Main {
                                         case 1 -> {
                                             try {//Criar Tarefa
                                                 Tarefa t = new Tarefa();
+                                                Caderno caderno = new Caderno();
 
                                                 System.out.print("-- Digite um nome para a tarefa: ");
                                                 t.setNome(input.nextLine());
@@ -214,6 +218,9 @@ public class Main {
                                                 tarefaService.salvarTarefa(idEscolhido, t);
                                                 System.out.println("-- Tarefa criada com sucesso! | ID #" + t.getIdTarefa());
 
+                                                caderno.setIdCaderno(idEscolhido);
+                                                t.setCaderno(caderno);
+
                                             } catch (Exception e) {
                                                 e.getMessage();
 
@@ -221,6 +228,50 @@ public class Main {
                                         }
                                         case 2 ->{
                                             tarefaService.listarTarefas();
+                                        }
+                                        case 3 -> {
+
+                                            tarefaService.listarTarefas();
+
+                                            System.out.println("-- Qual id da tarefa você deseja fazer a alteraçã0?");
+                                            int idTarefa = Integer.parseInt(input.nextLine());
+
+                                            Tarefa tarefa = new Tarefa();
+                                            Caderno caderno = new Caderno();
+                                            tarefa.setIdTarefa(idTarefa);
+
+
+                                            System.out.println("-- Digite um novo nome para a tarefa");
+                                            tarefa.setNome(input.nextLine());
+
+                                            System.out.println("-- Digite um novo status para a tarefa");
+                                            tarefa.setStatus(input.nextLine());
+
+                                            caderno.setIdCaderno(idEscolhido);
+                                            tarefa.setCaderno(caderno);
+
+                                            try {
+                                                boolean editado = tarefaService.editarTarefa(tarefa);
+                                                if (editado) {
+                                                    System.out.println("-- Usuario editado com sucesso!");
+                                                } else {
+                                                    System.out.println("-- ERROR: Edição não finalizada ");
+                                                }
+
+                                            } catch (Exception e) {
+                                                System.err.println(e.getMessage());
+                                            }
+                                        }
+                                        case 4 ->{
+                                            System.out.print("-- Qual id da tarefa você deseja excluir?");
+                                            int idTarefa = Integer.parseInt(input.nextLine());
+
+                                            boolean excluido = tarefaService.excluirTarefa(idTarefa);
+                                            if (excluido) {
+                                                System.out.println("-- Tarefa excluida com sucesso!");
+                                            } else {
+                                                System.out.println("-- ERROR: Exclusão não finalizada! ");
+                                            }
                                         }
                                     }
 
