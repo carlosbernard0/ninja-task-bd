@@ -84,19 +84,19 @@ public class Main {
                 }
                 case 3 -> {
                     usuarioService.listar();
-                    System.out.println("-- Qual id você deseja fazer a alteraçã0?");
+                    System.out.print("-- Qual id você deseja fazer a alteraçã0?");
                     int idUsuario = Integer.parseInt(input.nextLine());
 
                     Usuario usuario = new Usuario();
                     usuario.setId_usuario(idUsuario);
 
-                    System.out.println("-- Digite um novo nome para o usuario");
+                    System.out.print("-- Digite um novo nome para o usuario");
                     usuario.setNome_usuario(input.nextLine());
 
-                    System.out.println("-- Digite um novo e-mail do usuario");
+                    System.out.print("-- Digite um novo e-mail do usuario");
                     usuario.setEmail_usuario(input.nextLine());
 
-                    System.out.println("-- Digite a nova senha do usuario");
+                    System.out.print("-- Digite a nova senha do usuario");
                     usuario.setSenha_usuario(input.nextLine());
 
                     usuario.setData_registro(new Date());
@@ -116,14 +116,14 @@ public class Main {
                 }
                 case 4 -> {
                     usuarioService.listar();
-                    System.out.println("-- Qual id você deseja excluir?");
+                    System.out.print("-- Qual id você deseja excluir?");
                     int idUsuario = Integer.parseInt(input.nextLine());
 
                     boolean excluido = usuarioService.excluirUsuario(idUsuario);
                     if (excluido) {
-                        System.out.println("-- Usuario excluido com sucesso!");
+                        System.out.print("-- Usuario excluido com sucesso!");
                     } else {
-                        System.out.println("-- ERROR: Exclusão não finalizada! ");
+                        System.out.print("-- ERROR: Exclusão não finalizada! ");
                     }
                 }
                 case 5 -> {
@@ -132,8 +132,10 @@ public class Main {
                     byte selectListMenuCaderno;
                     do {
 
+                        System.out.println("-- Logged id: #" + idEscolhido);
+                        
                         System.out.println("""
-                                                    
+              
                                 -- MENU CADERNO --
                                                     
                                 -- (1) Criar novo Caderno
@@ -154,7 +156,7 @@ public class Main {
                                     Caderno caderno = new Caderno();
                                     Usuario usuario = new Usuario();
 
-                                    System.out.println("-- Digite um nome para o caderno: ");
+                                    System.out.print("-- Digite um nome para o caderno: ");
                                     caderno.setNomeCaderno(input.nextLine());
 
                                     usuario.setId_usuario(idEscolhido);
@@ -238,7 +240,7 @@ public class Main {
 
                                             tarefaService.listarTarefas();
 
-                                            System.out.println("-- Qual id da tarefa você deseja fazer a alteraçã0?");
+                                            System.out.print("-- Qual id da tarefa você deseja fazer a alteraçã0?");
                                             int idTarefa = Integer.parseInt(input.nextLine());
 
                                             Tarefa tarefa = new Tarefa();
@@ -246,10 +248,10 @@ public class Main {
                                             tarefa.setIdTarefa(idTarefa);
 
 
-                                            System.out.println("-- Digite um novo nome para a tarefa");
+                                            System.out.print("-- Digite um novo nome para a tarefa");
                                             tarefa.setNome(input.nextLine());
 
-                                            System.out.println("-- Digite um novo status para a tarefa");
+                                            System.out.print("-- Digite um novo status para a tarefa");
                                             tarefa.setStatus(input.nextLine());
 
                                             caderno.setIdCaderno(idEscolhido);
