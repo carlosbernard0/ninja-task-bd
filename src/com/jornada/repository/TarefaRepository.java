@@ -74,7 +74,7 @@ public class TarefaRepository {
                 tarefa.setIdTarefa(resultSet.getInt("id_tarefa"));
                 tarefa.setNome(resultSet.getString("nome_tarefa"));
                 tarefa.setStatus(resultSet.getString("status_tarefa"));
-                tarefa.getCaderno();
+                tarefa.setIdCaderno(resultSet.getInt("id_caderno"));
 
 
                 listaDeTarefas.add(tarefa);

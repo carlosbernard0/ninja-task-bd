@@ -53,7 +53,7 @@ public class Tarefa {
                 ", status='" + status + '\'' +
                 ", idTarefa=" + idTarefa +
                 ", idCaderno=" + idCaderno +
-//                ", caderno=" + caderno +
+                ", caderno=" + caderno +
                 '}';
     }
 }
