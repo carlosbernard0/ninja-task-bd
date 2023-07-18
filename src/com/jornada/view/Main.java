@@ -38,11 +38,11 @@ public class Main {
                             -- (3) Editar Usuarios
                             -- (4) Excluir Usuario
                             -- (5) Entrar no Caderno
-                            -- (6) Mostrar Cadernos dos Usuarios
                             -- (0) Sair do programa
                                                 
                                                 
                             """);
+//            -- (6) Mostrar Cadernos dos Usuarios
 
             System.out.print("-- Digite a opção desejada: ");
             byte userMenuSelection = Byte.parseByte(input.nextLine());
