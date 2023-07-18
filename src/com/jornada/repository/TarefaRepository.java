@@ -1,6 +1,9 @@
 package com.jornada.repository;
 
+import com.jornada.entity.Caderno;
 import com.jornada.entity.Tarefa;
+import com.jornada.entity.Usuario;
+import oracle.net.nt.TcpNTAdapter;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -154,6 +157,50 @@ public class TarefaRepository {
             System.out.println("erro no banco");
         }
 
+    }
+
+    public List<Tarefa> listarPorIdCaderno(Integer idCaderno){
+        Connection connection = null;
+        List<Tarefa> listaDeTarefa = new ArrayList<>();
+        try {
+            //abrir conexao
+            connection = ConexaoDB.getConnection();
+
+            String sql = "SELECT t.*, c.ID_CADERNO , c.NOME_CADERNO , c.ID_USUARIO  \n" +
+                    "\tFROM TAREFA t  \n" +
+                    "\tright JOIN CADERNO c ON (c.ID_CADERNO  = t.ID_CADERNO)\n" +
+                    "\tWHERE c.ID_CADERNO  = ?";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setInt(1,idCaderno);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Tarefa tarefa = new Tarefa();
+                tarefa.setIdTarefa(resultSet.getInt("id_tarefa"));
+                tarefa.setNome(resultSet.getString("nome_tarefa"));
+                tarefa.setStatus(resultSet.getString("status_tarefa"));
+                tarefa.setIdCaderno(resultSet.getInt("id_caderno"));
+                Caderno caderno = new Caderno();
+                caderno.setIdCaderno(resultSet.getInt("id_caderno"));
+                caderno.setNomeCaderno(resultSet.getString("nome_caderno"));
+                caderno.setIdUsuario(resultSet.getInt("id_usuario"));
+                tarefa.setCaderno(caderno);
+                listaDeTarefa.add(tarefa);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                if (connection != null && !connection.isClosed()) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return listaDeTarefa;
+        }
     }
 
 }

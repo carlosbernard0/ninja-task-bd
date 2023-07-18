@@ -69,7 +69,7 @@ public class CadernoRepository {
                 Caderno caderno = new Caderno();
                 caderno.setIdCaderno(resultSet.getInt("id_caderno"));
                 caderno.setNomeCaderno(resultSet.getString("nome_caderno"));
-//                caderno.setIdUsuario(resultSet.getInt("id_usuario"));
+                caderno.setIdUsuario(resultSet.getInt("id_usuario"));
                 listaDeCaderno.add(caderno);
             }
 
@@ -122,7 +122,7 @@ public class CadernoRepository {
             //abrir conexao
             connection = ConexaoDB.getConnection();
 
-            String sql = "SELECT c.*, u.*\n" +
+            String sql = "SELECT c.*, u.ID_USUARIO , u.NOME_USUARIO, u.EMAIL_USUARIO\n" +
                     "\tFROM CADERNO c \n" +
                     "\tright JOIN USUARIO u ON (u.ID_USUARIO = c.ID_USUARIO)\n" +
                     "\tWHERE u.ID_USUARIO = ?";
@@ -135,10 +135,13 @@ public class CadernoRepository {
                 Caderno caderno = new Caderno();
                 caderno.setIdCaderno(resultSet.getInt("id_caderno"));
                 caderno.setNomeCaderno(resultSet.getString("nome_caderno"));
-//                caderno.setIdUsuario(resultSet.getInt("id_usuario"));
-                listaDeCaderno.add(caderno);
+                caderno.setIdUsuario(resultSet.getInt("id_usuario"));
                 Usuario usuario = new Usuario();
-//                usuario.setId_usuario();
+                usuario.setId_usuario(resultSet.getInt("id_usuario"));
+                usuario.setNome_usuario(resultSet.getString("nome_usuario"));
+                usuario.setEmail_usuario(resultSet.getString("email_usuario"));
+                caderno.setUsuario(usuario);
+                listaDeCaderno.add(caderno);
             }
 
         } catch (SQLException e) {

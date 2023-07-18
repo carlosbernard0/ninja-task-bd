@@ -3,7 +3,17 @@ package com.jornada.entity;
 public class Caderno {
     private Integer idCaderno;
     private String nomeCaderno;
+    private Integer idUsuario;
     private Usuario usuario;
+
+
+    public Integer getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
+    }
 
     public Integer getIdCaderno() {
         return idCaderno;
@@ -34,7 +44,8 @@ public class Caderno {
         return "Caderno{" +
                 "idCaderno=" + idCaderno +
                 ", nomeCaderno='" + nomeCaderno + '\'' +
-                ", idUsuario=" + usuario +
+                ", idUsuario=" + idUsuario +
+//                ", usuario=" + usuario+
                 '}';
     }
 }

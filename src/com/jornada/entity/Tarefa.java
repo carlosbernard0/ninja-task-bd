@@ -4,6 +4,15 @@ public class Tarefa {
     private String nome, status;
     private Integer idTarefa;
     private Caderno caderno;
+    private Integer idCaderno;
+
+    public Integer getIdCaderno() {
+        return idCaderno;
+    }
+
+    public void setIdCaderno(Integer idCaderno) {
+        this.idCaderno = idCaderno;
+    }
 
     public String getNome() {
         return nome;
@@ -43,7 +52,8 @@ public class Tarefa {
                 "nome='" + nome + '\'' +
                 ", status='" + status + '\'' +
                 ", idTarefa=" + idTarefa +
-                ", idCaderno=" + caderno +
+                ", idCaderno=" + idCaderno +
+//                ", caderno=" + caderno +
                 '}';
     }
 }

@@ -38,6 +38,7 @@ public class Main {
                             -- (3) Editar Usuarios
                             -- (4) Excluir Usuario
                             -- (5) Entrar no Caderno
+                            -- (6) Mostrar Cadernos dos Usuarios
                             -- (0) Sair do programa
                                                 
                                                 
@@ -199,6 +200,7 @@ public class Main {
                                             -- (2) Listar Tarefas
                                             -- (3) Editar Tarefa
                                             -- (4) Apagar Tarefa
+                                            -- (5) Listar Tarefas por Caderno
                                             -- (0) Sair do programa
                                                                         
                                             """);
@@ -280,6 +282,11 @@ public class Main {
                                                 System.out.println("-- ERROR: Exclusão não finalizada! ");
                                             }
                                         }
+                                        case 5 ->{
+                                            System.out.print("-- Qual id do caderno que voce deseja ver?");
+                                            int idCaderno = Integer.parseInt(input.nextLine());
+                                            tarefaService.listarPorIdCaderno(idCaderno);
+                                        }
                                     }
 
                                 } while (selectListMenuTarefa != 0);
@@ -296,6 +303,11 @@ public class Main {
                     firstMenuSelection = Integer.parseInt(input.nextLine());
 
 
+                }
+                case 6 -> {
+                    System.out.print("-- Qual id do usuario que voce deseja ver?");
+                    int idUsuario = Integer.parseInt(input.nextLine());
+                    cadernoService.listarPorIdUsuario(idUsuario);
                 }
 
 

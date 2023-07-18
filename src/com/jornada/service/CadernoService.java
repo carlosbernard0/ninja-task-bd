@@ -26,4 +26,10 @@ public class CadernoService {
     public boolean excluirCaderno(Integer idCaderno){
         return this.cadernoRepository.excluirCaderno(idCaderno);
     }
+
+    public List<Caderno> listarPorIdUsuario(Integer idUsuario){
+        List<Caderno> list= cadernoRepository.listarPorIdUsuario(idUsuario);
+        list.stream().forEach(System.out::println);
+        return list;
+    }
 }

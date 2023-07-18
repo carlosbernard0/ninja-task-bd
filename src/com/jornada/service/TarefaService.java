@@ -33,4 +33,10 @@ public class TarefaService {
     public boolean excluirTarefa(Integer idTarefa){
         return this.tarefaRepository.excluirTarefa(idTarefa);
     }
+
+    public List<Tarefa> listarPorIdCaderno(Integer idCaderno){
+        List<Tarefa> list= tarefaRepository.listarPorIdCaderno(idCaderno);
+        list.stream().forEach(System.out::println);
+        return list;
+    }
 }
